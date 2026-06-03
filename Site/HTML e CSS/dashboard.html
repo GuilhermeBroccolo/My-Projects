@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — DevTech Tecnologias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #06163a;
+            background-image:
+                radial-gradient(ellipse at top left, #2c61a7 0%, #06163a 60%),
+                radial-gradient(ellipse at bottom right, #8356d1 0%, transparent 80%);
+            min-height: 100vh;
+            color: #e8eaf6;
+        }
+ 
+        /* NAVBAR */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+ 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+ 
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f8ef7, #8356d1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+        }
+ 
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+ 
+        .logo-text span {
+            color: #4f8ef7;
+        }
+ 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+ 
+        .nav-badge {
+            background: rgba(79, 142, 247, 0.15);
+            border: 1px solid rgba(79, 142, 247, 0.3);
+            color: #4f8ef7;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .btn-sair {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ccc;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+        }
+ 
+        .btn-sair:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+ 
+        /* HERO */
+        .hero {
+            padding: 64px 48px 48px;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fadeUp 0.6s ease both;
+        }
+ 
+        .hero-tag {
+            display: inline-block;
+            background: rgba(79, 142, 247, 0.12);
+            border: 1px solid rgba(79, 142, 247, 0.25);
+            color: #7eb3ff;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+ 
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            color: white;
+            margin-bottom: 16px;
+        }
+ 
+        .hero h1 span {
+            background: linear-gradient(90deg, #4f8ef7, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+ 
+        .hero p {
+            font-size: 17px;
+            color: #9aa5c4;
+            line-height: 1.7;
+            max-width: 580px;
+            font-weight: 300;
+        }
+ 
+        /* CARDS DE STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            max-width: 1100px;
+            margin: 0 auto 48px;
+            padding: 0 48px;
+            animation: fadeUp 0.6s 0.1s ease both;
+        }
+ 
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, background 0.2s;
+        }
+ 
+        .stat-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255,255,255,0.08);
+        }
+ 
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+ 
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+        }
+ 
+        .stat-label {
+            font-size: 13px;
+            color: #6b7fa3;
+            margin-top: 4px;
+        }
+ 
+        /* SEÇÃO SOBRE */
+        .sobre {
+            max-width: 1100px;
+            margin: 0 auto 48px;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            animation: fadeUp 0.6s 0.2s ease both;
+        }
+ 
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.2s;
+        }
+ 
+        .card:hover {
+            transform: translateY(-3px);
+        }
+ 
+        .card-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #4f8ef7;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+ 
+        .card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 14px;
+        }
+ 
+        .card p {
+            font-size: 15px;
+            color: #8a9bbf;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+ 
+        /* VALORES */
+        .valores-lista {
+            list-style: none;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+ 
+        .valores-lista li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #9aa5c4;
+        }
+ 
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f8ef7, #8356d1);
+            flex-shrink: 0;
+        }
+ 
+        /* SERVIÇOS */
+        .servicos {
+            max-width: 1100px;
+            margin: 0 auto 64px;
+            padding: 0 48px;
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+ 
+        .servicos h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+ 
+        .servicos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+ 
+        .servico-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+ 
+        .servico-card:hover {
+            background: rgba(79, 142, 247, 0.08);
+            border-color: rgba(79, 142, 247, 0.2);
+            transform: translateY(-3px);
+        }
+ 
+        .servico-emoji {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+ 
+        .servico-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+ 
+        .servico-card p {
+            font-size: 13px;
+            color: #6b7fa3;
+            line-height: 1.6;
+        }
+ 
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #3d4f70;
+            font-size: 13px;
+        }
+ 
+        /* ANIMAÇÃO */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+ 
+        @media (max-width: 700px) {
+            nav { padding: 16px 20px; }
+            .hero { padding: 40px 20px 32px; }
+            .hero h1 { font-size: 32px; }
+            .stats, .sobre, .servicos { padding: 0 20px; }
+            .sobre { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+ 
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">DT</div>
+            <span class="logo-text">Dev<span>Tech</span></span>
+        </div>
+        <div class="nav-right">
+            <span class="nav-badge">🟢 Sistema Online</span>
+            <button class="btn-sair" onclick="window.location.href='serviços.html'">Serviços</button>
+            <button class="btn-sair" onclick="window.location.href='index.html'">Sair</button>
+        </div>
+    </nav>
+ 
+    <section class="hero">
+        <div class="hero-tag">Bem-vindo ao painel</div>
+        <h1>Olá, seja bem-vindo à<br><span>DevTech Tecnologias</span></h1>
+        <p>Somos uma empresa focada em transformar ideias em soluções digitais modernas, ágeis e eficientes para o mercado tecnológico.</p>
+    </section>
+ 
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-number">120+</div>
+            <div class="stat-label">Clientes atendidos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-number">85</div>
+            <div class="stat-label">Projetos entregues</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🌎</div>
+            <div class="stat-number">12</div>
+            <div class="stat-label">Países alcançados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-number">4.9</div>
+            <div class="stat-label">Avaliação média</div>
+        </div>
+    </div>
+ 
+    <div class="sobre">
+        <div class="card">
+            <div class="card-tag">Quem somos</div>
+            <h2>Nossa história</h2>
+            <p>A DevTech Tecnologias nasceu da paixão por tecnologia e inovação. Fundada por profissionais experientes do mercado digital, nossa missão é oferecer soluções tecnológicas que realmente fazem a diferença para nossos clientes.</p>
+            <p style="margin-top: 12px;">Acreditamos que a tecnologia deve ser acessível, intuitiva e poderosa — e é exatamente isso que entregamos em cada projeto.</p>
+        </div>
+        <div class="card">
+            <div class="card-tag">Nossos valores</div>
+            <h2>O que nos guia</h2>
+            <ul class="valores-lista">
+                <li><span class="dot"></span> Inovação constante em cada solução</li>
+                <li><span class="dot"></span> Transparência com clientes e parceiros</li>
+                <li><span class="dot"></span> Qualidade acima de tudo</li>
+                <li><span class="dot"></span> Comprometimento com prazos e resultados</li>
+                <li><span class="dot"></span> Respeito e ética em todas as relações</li>
+                <li><span class="dot"></span> Foco no sucesso do cliente</li>
+            </ul>
+        </div>
+    </div>
+ 
+    <section class="servicos">
+        <h2>Nossos serviços</h2>
+        <div class="servicos-grid">
+            <div class="servico-card">
+                <div class="servico-emoji">💻</div>
+                <h3>Desenvolvimento Web</h3>
+                <p>Sites e sistemas modernos, responsivos e de alta performance.</p>
+            </div>
+            <div class="servico-card">
+                <div class="servico-emoji">📱</div>
+                <h3>Apps Mobile</h3>
+                <p>Aplicativos nativos e híbridos para iOS e Android.</p>
+            </div>
+            <div class="servico-card">
+                <div class="servico-emoji">☁️</div>
+                <h3>Cloud & Infraestrutura</h3>
+                <p>Soluções em nuvem escaláveis e seguras para sua empresa.</p>
+            </div>
+            <div class="servico-card">
+                <div class="servico-emoji">🤖</div>
+                <h3>Inteligência Artificial</h3>
+                <p>Automação e IA aplicada para otimizar seus processos.</p>
+            </div>
+        </div>
+    </section>
+ 
+    <footer>
+        <div class="footer-conteudo">
+
+            <div class="footer-logo"></div>
+            <div class="logo-icon">DT</div>
+            <span class="logo-text">Dev<span>Tech</span></span>
+
+            <p class="footer-desc">Transformando ideias em soluções eficientes</p>
+
+            <div class="footer-info">
+                <span>📧 contato.info@devtech.com.br</span>
+                <span>📞 (19) 3342-7306</span>
+                <span>📍 Av. Tecnologia, 1135 — Campinas, SP</span>
+                <span>🕐 Seg a Sex, 08h às 18h</span>
+            </div>
+        </div>
+
+        <p class="footer-direitos"></p>© 2025 DevTech Tecnologias — Todos os direitos reservados
+    </footer>
+ 
+</body>
+</html>
+ 

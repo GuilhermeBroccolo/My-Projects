@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços — DevTech Tecnologias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #06163a;
+            background-image:
+                radial-gradient(ellipse at top left, #2c61a7 0%, #06163a 60%),
+                radial-gradient(ellipse at bottom right, #8356d1 0%, transparent 80%);
+            min-height: 100vh;
+            color: #e8eaf6;
+        }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f8ef7, #8356d1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: white;
+        }
+
+        .logo-text span { color: #4f8ef7; }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: #9aa5c4;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.07);
+            color: white;
+        }
+
+        .nav-links a.ativo {
+            background: rgba(79,142,247,0.15);
+            color: #4f8ef7;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 80px 48px 56px;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(79,142,247,0.12);
+            border: 1px solid rgba(79,142,247,0.25);
+            color: #7eb3ff;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #4f8ef7, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #9aa5c4;
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* GRID DE SERVIÇOS */
+        .servicos {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 48px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            animation: fadeUp 0.6s 0.15s ease both;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 20px 20px 0 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(79,142,247,0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-1::before { background: linear-gradient(90deg, #4f8ef7, #60a5fa); }
+        .card-2::before { background: linear-gradient(90deg, #a78bfa, #8356d1); }
+        .card-3::before { background: linear-gradient(90deg, #34d399, #10b981); }
+        .card-4::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
+        .card-5::before { background: linear-gradient(90deg, #f43f5e, #ec4899); }
+        .card-6::before { background: linear-gradient(90deg, #06b6d4, #0ea5e9); }
+
+        .card-emoji {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #8a9bbf;
+            line-height: 1.75;
+            font-weight: 300;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #9aa5c4;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 64px 48px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+
+        .cta h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #6b7fa3;
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, #2c61a7, #8356d1);
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 36px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .btn-cta:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #3d4f70;
+            font-size: 13px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 700px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .hero { padding: 48px 20px 36px; }
+            .hero h1 { font-size: 32px; }
+            .servicos { padding: 0 20px 48px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="logo" href="dashboard.html">
+            <div class="logo-icon">DT</div>
+            <span class="logo-text">Dev<span>Tech</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="dashboard.html">Início</a>
+            <a href="servicos.html" class="ativo">Serviços</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-tag">O que fazemos</div>
+        <h1>Nossas <span>soluções</span> para<br>o seu negócio</h1>
+        <p>Da ideia à entrega, oferecemos serviços completos para transformar seu negócio com tecnologia de ponta.</p>
+    </section>
+
+    <div class="servicos">
+
+        <div class="card card-1">
+            <span class="card-emoji">💻</span>
+            <h2>Desenvolvimento Web</h2>
+            <p>Criamos sites e sistemas web modernos, responsivos e de alta performance. Do layout ao back-end, entregamos soluções completas que funcionam em qualquer dispositivo com foco em experiência do usuário.</p>
+            <div class="card-tags">
+                <span class="tag">HTML & CSS</span>
+                <span class="tag">React</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">Responsivo</span>
+            </div>
+        </div>
+
+        <div class="card card-2">
+            <span class="card-emoji">📱</span>
+            <h2>Aplicativos Mobile</h2>
+            <p>Desenvolvemos aplicativos nativos e híbridos para iOS e Android. Interfaces intuitivas, performance fluida e integração com os recursos do celular para oferecer a melhor experiência ao usuário final.</p>
+            <div class="card-tags">
+                <span class="tag">iOS</span>
+                <span class="tag">Android</span>
+                <span class="tag">React Native</span>
+                <span class="tag">Flutter</span>
+            </div>
+        </div>
+
+        <div class="card card-3">
+            <span class="card-emoji">☁️</span>
+            <h2>Cloud & Infraestrutura</h2>
+            <p>Migramos e gerenciamos sua infraestrutura na nuvem com segurança, escalabilidade e custo otimizado. Utilizamos as principais plataformas do mercado para garantir disponibilidade 24/7 para o seu negócio.</p>
+            <div class="card-tags">
+                <span class="tag">AWS</span>
+                <span class="tag">Google Cloud</span>
+                <span class="tag">Azure</span>
+                <span class="tag">DevOps</span>
+            </div>
+        </div>
+
+        <div class="card card-4">
+            <span class="card-emoji">🤖</span>
+            <h2>Inteligência Artificial</h2>
+            <p>Implementamos soluções de IA e Machine Learning para automatizar processos, analisar dados e gerar insights estratégicos. Chatbots, análise preditiva e automação inteligente para o seu negócio crescer.</p>
+            <div class="card-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Chatbots</span>
+                <span class="tag">Automação</span>
+                <span class="tag">Data Science</span>
+            </div>
+        </div>
+
+        <div class="card card-5">
+            <span class="card-emoji">🔒</span>
+            <h2>Segurança Digital</h2>
+            <p>Protegemos os dados e sistemas da sua empresa contra ameaças digitais. Realizamos auditorias, testes de invasão e implementamos políticas de segurança robustas para garantir a integridade do seu negócio.</p>
+            <div class="card-tags">
+                <span class="tag">Pentest</span>
+                <span class="tag">Firewall</span>
+                <span class="tag">LGPD</span>
+                <span class="tag">Criptografia</span>
+            </div>
+        </div>
+
+        <div class="card card-6">
+            <span class="card-emoji">📊</span>
+            <h2>Consultoria em TI</h2>
+            <p>Ajudamos sua empresa a tomar as melhores decisões tecnológicas. Analisamos sua operação atual, identificamos gargalos e propomos um roadmap tecnológico personalizado para acelerar seus resultados.</p>
+            <div class="card-tags">
+                <span class="tag">Diagnóstico</span>
+                <span class="tag">Roadmap</span>
+                <span class="tag">Estratégia</span>
+                <span class="tag">Gestão</span>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="cta">
+        <h2>Pronto para começar?</h2>
+        <p>Fale com a nossa equipe e descubra qual solução é ideal para você.</p>
+        <a href="dashboard.html" class="btn-cta">Voltar ao início</a>
+    </section>
+
+    <footer>
+        © 2025 DevTech Tecnologias — Todos os direitos reservados
+    </footer>
+
+</body>
+</html>
