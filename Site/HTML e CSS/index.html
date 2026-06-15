@@ -14,11 +14,12 @@
         <input type="email" id="email" name="email" placeholder="e-mail" required>
 
         <label for ="senha">Digite sua Senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="senha" required>
         <div class ="campo-senha">
-            <button type="button" onclick="VerSenha()" id="btn-olho">👁️</button>
+            <input type="password" id="senha" name="senha" placeholder="senha" required>
+            <button type="button" onclick="verSenha()" id="btn-olho">👁️</button>
         </div>
-        <button onclick="entrar()">Entrar</button>
+
+        <button type="button" onclick="entrar()">Entrar</button>
     </div>
 
     <script>
@@ -31,7 +32,7 @@
                 return;
             }
 
-            if (email !== "monteiro@gmail.com.br" || senha !== "teste123"){
+            if (email !== "monteiro@gmail.com.br" || senha !== "admin123"){
                 alert("Email ou senha incorretos!");
                 return;               
             }
