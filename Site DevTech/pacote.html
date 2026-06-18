@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montar Pacote — DevTech Tecnologias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #06163a;
+            background-image:
+                radial-gradient(ellipse at top left, #2c61a7 0%, #06163a 60%),
+                radial-gradient(ellipse at bottom right, #8356d1 0%, transparent 80%);
+            min-height: 100vh; color: #e8eaf6;
+        }
+
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 48px; background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #4f8ef7, #8356d1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: white; }
+        .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: white; }
+        .logo-text span { color: #4f8ef7; }
+        .nav-links { display: flex; gap: 8px; }
+        .nav-links a { color: #9aa5c4; text-decoration: none; font-size: 14px; padding: 8px 16px; border-radius: 8px; transition: all 0.2s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.07); color: white; }
+        .nav-links a.ativo { background: rgba(79,142,247,0.15); color: #4f8ef7; pointer-events: none; }
+
+        /* HERO */
+        .hero {
+            text-align: center; padding: 64px 48px 48px;
+            animation: fadeUp 0.5s ease both;
+        }
+        .hero-tag { display: inline-block; background: rgba(79,142,247,0.12); border: 1px solid rgba(79,142,247,0.25); color: #7eb3ff; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; }
+        .hero h1 { font-family: Bahnschrift; font-size: 44px; font-weight: 800; color: white; line-height: 1.1; margin-bottom: 14px; }
+        .hero h1 span { background: linear-gradient(90deg, #4f8ef7, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 16px; color: #8a9bbf; max-width: 480px; margin: 0 auto; line-height: 1.7; font-weight: 300; }
+
+        /* TOGGLE */
+        .toggle-wrapper { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 32px auto 48px; animation: fadeUp 0.5s 0.05s ease both; }
+        .toggle-label { font-size: 15px; color: #6b7fa3; font-weight: 500; transition: color 0.2s; }
+        .toggle-label.ativo { color: white; }
+        .toggle { position: relative; width: 52px; height: 26px; background: rgba(255,255,255,0.1); border-radius: 13px; cursor: pointer; border: 1px solid rgba(255,255,255,0.15); transition: background 0.3s; }
+        .toggle.anual { background: rgba(79,142,247,0.35); border-color: rgba(79,142,247,0.5); }
+        .toggle-bolinha { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 0.3s; }
+        .toggle.anual .toggle-bolinha { transform: translateX(26px); }
+        .badge-eco { background: linear-gradient(135deg, #34d399, #10b981); color: #012b1a; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+
+        /* GRID DE CARDS */
+        .layout { display: flex; gap: 32px; max-width: 1180px; margin: 0 auto; padding: 0 48px 80px; align-items: flex-start; }
+
+        .cards-area { flex: 1; animation: fadeUp 0.5s 0.1s ease both; }
+        .cards-titulo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: white; margin-bottom: 16px; }
+
+        .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+        .servico-card {
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 18px; padding: 22px;
+            cursor: pointer; transition: all 0.25s;
+            position: relative; overflow: hidden; user-select: none;
+        }
+        .servico-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 18px 18px 0 0; opacity: 0; transition: opacity 0.3s;
+        }
+        .servico-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-3px); }
+        .servico-card.selecionado { border-color: rgba(79,142,247,0.6) !important; background: rgba(79,142,247,0.1) !important; transform: translateY(-3px); }
+        .servico-card.selecionado::before { opacity: 1; }
+
+        .c1::before { background: linear-gradient(90deg, #4f8ef7, #60a5fa); }
+        .c2::before { background: linear-gradient(90deg, #a78bfa, #8356d1); }
+        .c3::before { background: linear-gradient(90deg, #34d399, #10b981); }
+        .c4::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
+        .c5::before { background: linear-gradient(90deg, #f43f5e, #ec4899); }
+        .c6::before { background: linear-gradient(90deg, #06b6d4, #0ea5e9); }
+
+        .c1.selecionado { border-color: rgba(79,142,247,0.7) !important; background: rgba(79,142,247,0.1) !important; }
+        .c2.selecionado { border-color: rgba(131,86,209,0.7) !important; background: rgba(131,86,209,0.1) !important; }
+        .c3.selecionado { border-color: rgba(52,211,153,0.7) !important; background: rgba(52,211,153,0.1) !important; }
+        .c4.selecionado { border-color: rgba(245,158,11,0.7) !important; background: rgba(245,158,11,0.08) !important; }
+        .c5.selecionado { border-color: rgba(244,63,94,0.7) !important; background: rgba(244,63,94,0.08) !important; }
+        .c6.selecionado { border-color: rgba(6,182,212,0.7) !important; background: rgba(6,182,212,0.08) !important; }
+
+        .card-check {
+            position: absolute; top: 14px; right: 14px;
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: transparent;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; color: transparent;
+            transition: all 0.25s;
+        }
+        .selecionado .card-check { background: #4f8ef7; border-color: #4f8ef7; color: white; }
+
+        .card-emoji { font-size: 32px; margin-bottom: 10px; display: block; }
+        .card-nome { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: white; margin-bottom: 6px; }
+        .card-preco { font-size: 13px; color: #6b7fa3; font-weight: 400; }
+        .card-preco strong { color: #9aa5c4; font-weight: 600; }
+        .card-link { font-size: 11px; color: #4f8ef7; text-decoration: none; display: inline-block; margin-top: 8px; }
+        .card-link:hover { text-decoration: underline; }
+
+        /* PAINEL LATERAL */
+        .painel {
+            width: 300px; flex-shrink: 0;
+            position: sticky; top: 96px;
+            animation: fadeUp 0.5s 0.15s ease both;
+        }
+
+        .painel-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 24px;
+        }
+
+        .painel-titulo { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .contador { background: rgba(79,142,247,0.2); border: 1px solid rgba(79,142,247,0.3); color: #7eb3ff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+
+        .lista-selecionados { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; min-height: 60px; }
+
+        .item-selecionado {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 10px 12px;
+            animation: aparecer 0.2s ease;
+        }
+        .item-emoji { font-size: 18px; }
+        .item-info { flex: 1; }
+        .item-nome { font-size: 13px; color: white; font-weight: 500; }
+        .item-preco { font-size: 12px; color: #6b7fa3; }
+        .item-remover { background: none; border: none; color: #4f6494; cursor: pointer; font-size: 16px; padding: 0; width: auto; margin: 0; transition: color 0.2s; }
+        .item-remover:hover { color: #f43f5e; }
+
+        .vazio {
+            text-align: center; padding: 20px 0;
+            color: #3d4f70; font-size: 14px;
+        }
+        .vazio span { display: block; font-size: 28px; margin-bottom: 8px; }
+
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 16px 0; }
+
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .total-label { font-size: 13px; color: #6b7fa3; }
+        .total-valor { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: white; }
+        .total-eco { font-size: 12px; color: #34d399; text-align: right; margin-bottom: 20px; min-height: 16px; }
+
+        .btn-assinar {
+            display: block; width: 100%; padding: 14px;
+            border-radius: 12px; border: none;
+            background: linear-gradient(135deg, #2c61a7, #8356d1);
+            color: white; font-family: 'DM Sans', sans-serif;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+            opacity: 0.4; pointer-events: none;
+        }
+        .btn-assinar.ativo { opacity: 1; pointer-events: all; }
+        .btn-assinar.ativo:hover { opacity: 0.88; transform: translateY(-2px); }
+
+        .hint { font-size: 12px; color: #3d4f70; text-align: center; margin-top: 12px; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            z-index: 200; align-items: center; justify-content: center;
+        }
+        .modal-overlay.aberto { display: flex; }
+        .modal {
+            background: #0d1f4a; border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px; padding: 36px; max-width: 480px; width: 90%;
+            animation: aparecer 0.3s ease;
+        }
+        .modal h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
+        .modal-sub { font-size: 14px; color: #6b7fa3; margin-bottom: 24px; }
+        .modal-lista { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+        .modal-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 16px; }
+        .modal-item-emoji { font-size: 22px; }
+        .modal-item-info { flex: 1; }
+        .modal-item-nome { font-size: 14px; color: white; font-weight: 500; }
+        .modal-item-preco { font-size: 13px; color: #6b7fa3; }
+        .modal-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 16px 0; }
+        .modal-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .modal-total-label { font-size: 14px; color: #9aa5c4; }
+        .modal-total-valor { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: white; }
+        .modal-eco { font-size: 13px; color: #34d399; text-align: right; margin-bottom: 24px; }
+        .modal-btns { display: flex; gap: 10px; }
+        .btn-fechar { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: #9aa5c4; font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; }
+        .btn-fechar:hover { background: rgba(255,255,255,0.1); color: white; }
+        .btn-confirmar { flex: 2; padding: 12px; border-radius: 10px; border: none; background: linear-gradient(135deg, #2c61a7, #8356d1); color: white; font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; }
+        .btn-confirmar:hover { opacity: 0.88; }
+
+        footer { text-align: center; padding: 24px; border-top: 1px solid rgba(255,255,255,0.06); color: #3d4f70; font-size: 13px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes aparecer { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        @media (max-width: 900px) {
+            .layout { flex-direction: column; padding: 0 20px 60px; }
+            .painel { width: 100%; position: static; }
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 700px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .hero { padding: 40px 20px 32px; }
+            .hero h1 { font-size: 32px; }
+            .toggle-wrapper { padding: 0 20px; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="logo" href="dashboard.html">
+        <div class="logo-icon">DT</div>
+        <span class="logo-text">Dev<span>Tech</span></span>
+    </a>
+    <div class="nav-links">
+        <a href="dashboard.html">Início</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="pacote.html" class="ativo">Assinaturas</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-tag">Monte seu pacote</div>
+    <h1>Escolha os serviços<br>que você <span>precisa</span></h1>
+    <p>Selecione um ou mais serviços abaixo. Você paga só pelo que escolher.</p>
+</section>
+
+<div class="toggle-wrapper">
+    <span class="toggle-label ativo" id="lbl-m">Mensal</span>
+    <div class="toggle" id="tog" onclick="alternarPeriodo()"><div class="toggle-bolinha"></div></div>
+    <span class="toggle-label" id="lbl-a">Anual</span>
+    <span class="badge-eco">2 meses grátis</span>
+</div>
+
+<div class="layout">
+    <!-- CARDS -->
+    <div class="cards-area">
+        <div class="cards-titulo">Clique para selecionar os serviços ✦</div>
+        <div class="cards-grid" id="cards-grid">
+
+            <div class="servico-card c1" data-id="web" data-nome="Desenvolvimento Web" data-emoji="💻" data-mensal="1500" data-anual="15000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">💻</span>
+                <div class="card-nome">Desenvolvimento Web</div>
+                <div class="card-preco"><strong id="preco-web">R$ 1.500/mês</strong></div>
+                <a href="detalhe-web.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+            <div class="servico-card c2" data-id="mobile" data-nome="Aplicativos Mobile" data-emoji="📱" data-mensal="2800" data-anual="28000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">📱</span>
+                <div class="card-nome">Aplicativos Mobile</div>
+                <div class="card-preco"><strong id="preco-mobile">R$ 2.800/mês</strong></div>
+                <a href="detalhe-mobile.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+            <div class="servico-card c3" data-id="cloud" data-nome="Cloud & Infraestrutura" data-emoji="☁️" data-mensal="1200" data-anual="12000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">☁️</span>
+                <div class="card-nome">Cloud &amp; Infraestrutura</div>
+                <div class="card-preco"><strong id="preco-cloud">R$ 1.200/mês</strong></div>
+                <a href="detalhe-cloud.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+            <div class="servico-card c4" data-id="ia" data-nome="Inteligência Artificial" data-emoji="🤖" data-mensal="3500" data-anual="35000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">🤖</span>
+                <div class="card-nome">Inteligência Artificial</div>
+                <div class="card-preco"><strong id="preco-ia">R$ 3.500/mês</strong></div>
+                <a href="detalhe-ia.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+            <div class="servico-card c5" data-id="seg" data-nome="Segurança Digital" data-emoji="🔒" data-mensal="2000" data-anual="20000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">🔒</span>
+                <div class="card-nome">Segurança Digital</div>
+                <div class="card-preco"><strong id="preco-seg">R$ 2.000/mês</strong></div>
+                <a href="detalhe-seguranca.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+            <div class="servico-card c6" data-id="con" data-nome="Consultoria em TI" data-emoji="📊" data-mensal="900" data-anual="9000" onclick="toggleCard(this)">
+                <div class="card-check">✓</div>
+                <span class="card-emoji">📊</span>
+                <div class="card-nome">Consultoria em TI</div>
+                <div class="card-preco"><strong id="preco-con">R$ 900/mês</strong></div>
+                <a href="detalhe-consultoria.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PAINEL -->
+    <div class="painel">
+        <div class="painel-box">
+            <div class="painel-titulo">
+                Meu pacote
+                <span class="contador" id="contador">0</span>
+            </div>
+
+            <ul class="lista-selecionados" id="lista-selecionados">
+                <li class="vazio" id="msg-vazio">
+                    <span>🧩</span>
+                    Nenhum serviço selecionado ainda
+                </li>
+            </ul>
+
+            <hr class="divider">
+
+            <div class="total-row">
+                <span class="total-label" id="periodo-label">Total mensal</span>
+                <div class="total-valor" id="total-valor">R$ 0</div>
+            </div>
+            <div class="total-eco" id="total-eco"></div>
+
+            <button class="btn-assinar" id="btn-assinar" onclick="abrirModal()">
+                Assinar pacote →
+            </button>
+            <p class="hint">Selecione pelo menos 1 serviço</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <h2>Resumo do seu pedido</h2>
+        <p class="modal-sub" id="modal-sub">Confira os serviços selecionados antes de assinar.</p>
+        <ul class="modal-lista" id="modal-lista"></ul>
+        <hr class="modal-divider">
+        <div class="modal-total">
+            <span class="modal-total-label" id="modal-periodo-label">Total mensal</span>
+            <div class="modal-total-valor" id="modal-total"></div>
+        </div>
+        <div class="modal-eco" id="modal-eco"></div>
+        <div class="modal-btns">
+            <button class="btn-fechar" onclick="fecharModal()">← Voltar</button>
+            <button class="btn-confirmar" onclick="confirmar()">Confirmar assinatura ✓</button>
+        </div>
+    </div>
+</div>
+
+<footer>© 2025 DevTech Tecnologias — Todos os direitos reservados</footer>
+
+<script>
+    let anual = false;
+    let selecionados = {}; // { id: { nome, emoji, mensal, anual } }
+
+    const precosMensais = { web: 1500, mobile: 2800, cloud: 1200, ia: 3500, seg: 2000, con: 900 };
+    const precosAnuais  = { web: 15000, mobile: 28000, cloud: 12000, ia: 35000, seg: 20000, con: 9000 };
+    const precoLabels   = {
+        web:    { m: 'R$ 1.500/mês', a: 'R$ 15.000/ano' },
+        mobile: { m: 'R$ 2.800/mês', a: 'R$ 28.000/ano' },
+        cloud:  { m: 'R$ 1.200/mês', a: 'R$ 12.000/ano' },
+        ia:     { m: 'R$ 3.500/mês', a: 'R$ 35.000/ano' },
+        seg:    { m: 'R$ 2.000/mês', a: 'R$ 20.000/ano' },
+        con:    { m: 'R$ 900/mês',   a: 'R$ 9.000/ano'  },
+    };
+
+    function fmt(val) {
+        return 'R$ ' + val.toLocaleString('pt-BR');
+    }
+
+    function alternarPeriodo() {
+        anual = !anual;
+        document.getElementById('tog').classList.toggle('anual', anual);
+        document.getElementById('lbl-m').classList.toggle('ativo', !anual);
+        document.getElementById('lbl-a').classList.toggle('ativo', anual);
+        document.getElementById('periodo-label').textContent = anual ? 'Total anual' : 'Total mensal';
+        document.getElementById('modal-periodo-label').textContent = anual ? 'Total anual' : 'Total mensal';
+
+        // Atualiza labels dos cards
+        Object.keys(precoLabels).forEach(id => {
+            const el = document.getElementById('preco-' + id);
+            if (el) el.textContent = anual ? precoLabels[id].a : precoLabels[id].m;
+        });
+
+        recalcular();
+    }
+
+    function toggleCard(card) {
+        const id    = card.dataset.id;
+        const nome  = card.dataset.nome;
+        const emoji = card.dataset.emoji;
+        const mensal = parseInt(card.dataset.mensal);
+        const anualVal = parseInt(card.dataset.anual);
+
+        if (selecionados[id]) {
+            delete selecionados[id];
+            card.classList.remove('selecionado');
+        } else {
+            selecionados[id] = { nome, emoji, mensal, anual: anualVal };
+            card.classList.add('selecionado');
+        }
+        recalcular();
+    }
+
+    function recalcular() {
+        const ids = Object.keys(selecionados);
+        const total = ids.reduce((acc, id) => acc + (anual ? selecionados[id].anual : selecionados[id].mensal), 0);
+        const totalMensalEquivalente = ids.reduce((acc, id) => acc + selecionados[id].mensal, 0);
+        const economia = totalMensalEquivalente * 2; // 2 meses grátis
+
+        // Contador
+        document.getElementById('contador').textContent = ids.length;
+
+        // Total
+        document.getElementById('total-valor').textContent = fmt(total);
+
+        // Economia
+        const ecoEl = document.getElementById('total-eco');
+        ecoEl.textContent = (anual && ids.length > 0) ? `Você economiza ${fmt(economia)} por ano` : '';
+
+        // Botão
+        const btn = document.getElementById('btn-assinar');
+        btn.classList.toggle('ativo', ids.length > 0);
+
+        // Lista no painel
+        const lista = document.getElementById('lista-selecionados');
+        const vazio = document.getElementById('msg-vazio');
+
+        lista.innerHTML = '';
+
+        if (ids.length === 0) {
+            lista.innerHTML = '<li class="vazio" id="msg-vazio"><span>🧩</span>Nenhum serviço selecionado ainda</li>';
+        } else {
+            ids.forEach(id => {
+                const s = selecionados[id];
+                const preco = anual ? s.anual : s.mensal;
+                const sufixo = anual ? '/ano' : '/mês';
+                const li = document.createElement('li');
+                li.className = 'item-selecionado';
+                li.id = 'item-' + id;
+                li.innerHTML = `
+                    <span class="item-emoji">${s.emoji}</span>
+                    <div class="item-info">
+                        <div class="item-nome">${s.nome}</div>
+                        <div class="item-preco">${fmt(preco)}${sufixo}</div>
+                    </div>
+                    <button class="item-remover" onclick="removerPorId('${id}')" title="Remover">×</button>
+                `;
+                lista.appendChild(li);
+            });
+        }
+    }
+
+    function removerPorId(id) {
+        delete selecionados[id];
+        const card = document.querySelector(`[data-id="${id}"]`);
+        if (card) card.classList.remove('selecionado');
+        recalcular();
+    }
+
+    function abrirModal() {
+        const ids = Object.keys(selecionados);
+        if (ids.length === 0) return;
+
+        const total = ids.reduce((acc, id) => acc + (anual ? selecionados[id].anual : selecionados[id].mensal), 0);
+        const economia = ids.reduce((acc, id) => acc + selecionados[id].mensal, 0) * 2;
+        const sufixo = anual ? '/ano' : '/mês';
+
+        // Sub
+        document.getElementById('modal-sub').textContent =
+            `${ids.length} serviço${ids.length > 1 ? 's' : ''} selecionado${ids.length > 1 ? 's' : ''}. Confirme antes de assinar.`;
+
+        // Lista
+        const lista = document.getElementById('modal-lista');
+        lista.innerHTML = '';
+        ids.forEach(id => {
+            const s = selecionados[id];
+            const preco = anual ? s.anual : s.mensal;
+            const li = document.createElement('li');
+            li.className = 'modal-item';
+            li.innerHTML = `
+                <span class="modal-item-emoji">${s.emoji}</span>
+                <div class="modal-item-info">
+                    <div class="modal-item-nome">${s.nome}</div>
+                    <div class="modal-item-preco">${fmt(preco)}${sufixo}</div>
+                </div>
+            `;
+            lista.appendChild(li);
+        });
+
+        // Total
+        document.getElementById('modal-total').textContent = fmt(total);
+        document.getElementById('modal-eco').textContent = anual ? `Você economiza ${fmt(economia)} comparado ao plano mensal` : '';
+
+        document.getElementById('modal').classList.add('aberto');
+    }
+
+    function fecharModal() {
+        document.getElementById('modal').classList.remove('aberto');
+    }
+
+    function confirmar() {
+        fecharModal();
+        alert('✅ Pedido registrado!\n\nEm breve nossa equipe entrará em contato para finalizar sua assinatura.\n\n📧 contato.info@devtech.com.br\n📞 (19) 3342-7306');
+    }
+
+    // Fecha modal clicando fora
+    document.getElementById('modal').addEventListener('click', function(e) {
+        if (e.target === this) fecharModal();
+    });
+</script>
+
+</body>
+</html>
