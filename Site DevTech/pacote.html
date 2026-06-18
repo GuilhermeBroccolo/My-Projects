@@ -224,7 +224,7 @@
     </a>
     <div class="nav-links">
         <a href="dashboard.html">Início</a>
-        <a href="servicos.html">Serviços</a>
+        <a href="serviços.html">Serviços</a>
         <a href="pacote.html" class="ativo">Assinaturas</a>
     </div>
 </nav>
@@ -259,7 +259,7 @@
             <div class="servico-card c2" data-id="mobile" data-nome="Aplicativos Mobile" data-emoji="📱" data-mensal="2800" data-anual="28000" onclick="toggleCard(this)">
                 <div class="card-check">✓</div>
                 <span class="card-emoji">📱</span>
-                <div class="card-nome">Aplicativos Mobile</div>
+                <div class="card-nome">Jogos Mobile</div>
                 <div class="card-preco"><strong id="preco-mobile">R$ 2.800/mês</strong></div>
                 <a href="detalhe-mobile.html" class="card-link" onclick="event.stopPropagation()">Ver detalhes →</a>
             </div>
@@ -309,7 +309,6 @@
 
             <ul class="lista-selecionados" id="lista-selecionados">
                 <li class="vazio" id="msg-vazio">
-                    <span>🧩</span>
                     Nenhum serviço selecionado ainda
                 </li>
             </ul>
@@ -431,7 +430,7 @@
         lista.innerHTML = '';
 
         if (ids.length === 0) {
-            lista.innerHTML = '<li class="vazio" id="msg-vazio"><span>🧩</span>Nenhum serviço selecionado ainda</li>';
+            lista.innerHTML = '<li class="vazio" id="msg-vazio"><span></span>Nenhum serviço selecionado ainda</li>';
         } else {
             ids.forEach(id => {
                 const s = selecionados[id];
@@ -503,7 +502,7 @@
 
     function confirmar() {
         fecharModal();
-        alert('✅ Pedido registrado!\n\nEm breve nossa equipe entrará em contato para finalizar sua assinatura.\n\n📧 contato.info@devtech.com.br\n📞 (19) 3342-7306');
+        alert('Pedido registrado!\n\nEm breve nossa equipe entrará em contato para finalizar sua assinatura.\n\n📧 contato.info@devtech.com.br\n📞 (19) 3342-7306');
     }
 
     // Fecha modal clicando fora
